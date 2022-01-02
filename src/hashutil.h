@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include <openssl/evp.h>
+//#include <openssl/evp.h>
 #include <random>
 
 namespace cuckoofilter {
@@ -47,23 +47,47 @@ class HashUtil {
 // See Martin Dietzfelbinger, "Universal hashing and k-wise independent random
 // variables via integer arithmetic without primes".
 class TwoIndependentMultiplyShift {
-  unsigned __int128 multiply_, add_;
+#if defined(__SIZEOF_INT128__)
+	unsigned __int128 multiply_, add_;
 
- public:
-  TwoIndependentMultiplyShift() {
-    ::std::random_device random;
-    for (auto v : {&multiply_, &add_}) {
-      *v = random();
-      for (int i = 1; i <= 4; ++i) {
-        *v = *v << 32;
-        *v |= random();
-      }
-    }
-  }
+public:
+	TwoIndependentMultiplyShift() {
+		::std::random_device random;
+		for (auto v : { &multiply_, &add_ }) {
+			*v = random();
+			for (int i = 1; i <= 4; ++i) {
+				*v = *v << 32;
+				*v |= random();
+			}
+		}
+	}
 
-  uint64_t operator()(uint64_t key) const {
-    return (add_ + multiply_ * static_cast<decltype(multiply_)>(key)) >> 64;
-  }
+	uint64_t operator()(uint64_t key) const {
+		return (add_ + multiply_ * static_cast<decltype(multiply_)>(key)) >> 64;
+	}
+#else
+	unsigned __int64 term[4];
+
+public:
+	TwoIndependentMultiplyShift() {
+		::std::random_device random;
+		for (int j = 0; j < 4; j++) {
+			unsigned __int64* v = term + j;
+
+			*v = random();
+			for (int i = 1; i <= 2; ++i) {
+				*v = *v << 32;
+				*v |= random();
+			}
+		}
+	}
+
+	uint64_t operator()(uint64_t key) const {
+		uint64_t lsw = term[0] + ((term[1] * static_cast<decltype(term[1])>(key)) >> 32);
+		uint64_t msw = term[2] + ((term[3] * static_cast<decltype(term[3])>(key)) >> 32);
+		return lsw | (msw << 32);
+	}
+#endif
 };
 
 

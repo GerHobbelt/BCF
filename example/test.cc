@@ -3,11 +3,24 @@
 #include <assert.h>
 #include <math.h>
 #include <fstream>
+#ifndef _MSC_VER
 #include <sys/time.h>
 #include <unistd.h>
+#else
+#include <windows.h>
+
+static void sleep(int n)
+{
+	Sleep(n * 1000);
+}
+
+#endif
 
 #include <iostream>
 #include <vector>
+
+#include "plf_nanotimer.hpp""
+
 
 using cuckoofilter::CuckooFilter;
 size_t NumberOfBuckets_4;
@@ -37,8 +50,7 @@ int main(int argc, char **argv) {
   
   size_t num_inserted = 0;
   size_t insert_time=0;
-      struct timeval tv1,tv2;
-    struct timezone tz1,tz2;
+  plf::nanotimer tv;
    std::ifstream in("./ip_final.txt");
   std::ofstream out("./ip_relocation_better"+ std::to_string(i)+".csv");
   // std::ofstream out ("./ip_inserttime_better_nobreak"+std::to_string(i)+".csv");
@@ -55,13 +67,13 @@ int main(int argc, char **argv) {
     
     in >> num;
      if(insert_time++ % 10486==0){
-      gettimeofday(&tv1,&tz1);
+		 tv.start();
     }
     if((num_inserted-100)%10486==0){
-            gettimeofday(&tv2,&tz2);
-            out<< num_inserted << "," << (tv2.tv_sec-tv1.tv_sec)*1000000+(tv2.tv_usec-tv1.tv_usec)<<std::endl;
+		double t = tv.get_elapsed_us();
+            out<< num_inserted << "," << t <<std::endl;
             sleep(1);
-            std::cout  <<"当前负载： "<< num_inserted << "," << "插入速度： "<<(tv2.tv_sec-tv1.tv_sec)*1000000+(tv2.tv_usec-tv1.tv_usec)<<std::endl;
+            std::cout  <<"当前负载： "<< num_inserted << "," << "插入速度： "<< t <<std::endl;
         }
     if(filter.Contain(num) == cuckoofilter::Ok)
       continue;

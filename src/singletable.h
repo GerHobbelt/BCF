@@ -14,7 +14,7 @@
 #if defined(GCC)
 #define PACKED   __attribute__((__packed__))
 #else
-#define PACKEED   /**/
+#define PACKED   /**/
 #endif
 
 namespace cuckoofilter {

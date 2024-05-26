@@ -749,7 +749,7 @@ std::string HashUtil::MD5Hash(const char *inbuf, size_t in_length) {
   EVP_DigestFinal_ex(mdctx, md_value, &md_len);
   EVP_MD_CTX_free(mdctx);
 
-  return std::string((char *)md_value, (size_t)md_len);
+  return std::string((const char *)md_value, (size_t)md_len);
 }
 
 std::string HashUtil::SHA1Hash(const char *inbuf, size_t in_length) {
@@ -763,7 +763,7 @@ std::string HashUtil::SHA1Hash(const char *inbuf, size_t in_length) {
   EVP_DigestFinal_ex(mdctx, md_value, &md_len);
   EVP_MD_CTX_free(mdctx);
 
-  return std::string((char *)md_value, (size_t)md_len);
+  return std::string((const char *)md_value, (size_t)md_len);
 }
 
 #endif

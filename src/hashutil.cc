@@ -709,6 +709,8 @@ uint32_t HashUtil::NullHash(const void *buf, size_t length,
           (data[(length - shiftbytes - 1)]));
 }
 
+#if !defined(BUILD_MONOLITHIC)
+
 /*
  * Compatibility layer for OpenSSL < 1.1.0.
  * Implemented as proposed by https://wiki.openssl.org/index.php/OpenSSL_1.1.0_Changes
@@ -763,4 +765,7 @@ std::string HashUtil::SHA1Hash(const char *inbuf, size_t in_length) {
 
   return std::string((char *)md_value, (size_t)md_len);
 }
+
+#endif
+
 }  // namespace cuckoofilter

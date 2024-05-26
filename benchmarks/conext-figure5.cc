@@ -14,6 +14,8 @@
 #include <climits>
 #include <iomanip>
 #include <vector>
+#include <array>
+#include <stdint.h>
 
 #include "cuckoofilter.h"
 #include "random.h"
@@ -52,6 +54,11 @@ array<double, 5> CuckooBenchmark(
   return result;
 }
 
+
+#if defined(BUILD_MONOLITHIC)
+#define main bcf_conext_figure5_test_main
+#endif
+
 int main() {
   // Number of distinct values, used only for the constructor of CuckooFilter, which does
   // not allow the caller to specify the space usage directly. The actual number of
@@ -81,4 +88,5 @@ int main() {
     cout << setw(10) << right << (SAMPLE_SIZE / sscf[found_percent * 4]) / (1000 * 1000);
     cout << endl;
   }
+  return 0;
 }

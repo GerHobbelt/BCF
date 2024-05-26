@@ -192,7 +192,12 @@ Statistics FilterBenchmark(
   return result;
 }
 
-int main(int argc, char * argv[]) {
+
+#if defined(BUILD_MONOLITHIC)
+#define main     bcf_bulk_insert_and_query_test_main
+#endif
+
+int main(int argc, const char ** argv) {
   if (argc != 2) {
     cerr << "Usage: " << argv[0] << " $NUMBER" << endl;
     return 1;
@@ -252,4 +257,5 @@ int main(int argc, char * argv[]) {
 
   cout << setw(NAME_WIDTH) << "SimdBlock8" << cf << endl;
 
+	return 0;
 }

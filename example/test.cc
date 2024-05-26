@@ -19,7 +19,7 @@ static void sleep(int n)
 #include <iostream>
 #include <vector>
 
-#include "plf_nanotimer.hpp""
+#include "plf_nanotimer.hpp"
 
 
 using cuckoofilter::CuckooFilter;
@@ -30,7 +30,12 @@ size_t NumberOfBuckets_1;
 size_t NumberOfBuckets_0;
 size_t NumberOfRelocations;
 
-int main(int argc, char **argv) {
+
+#if defined(BUILD_MONOLITHIC)
+#define main bcf_example_main
+#endif
+
+int main(int argc, const char **argv) {
   for(int i=1;i<=1;i++){
 
   

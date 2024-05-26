@@ -1,6 +1,7 @@
 # Better Choice Cuckoo Filter
 
 ## Overview
+
 Better Choice Cuckoo Filter (BCF) is an efficient approximate membership test data structure. Different from the standard Cuckoo Filter (CF), BCF levearge the principle of the power of two choices to select the better candidate bucket during inserting an element. The advantages of DCF are as follows
 
 * The BCF design achieve a more uniform distribution compared with the standard CF.
@@ -10,7 +11,7 @@ Better Choice Cuckoo Filter (BCF) is an efficient approximate membership test da
 
 
 ## API
---------
+
 A Better Choice Cuckoo Filter supports following operations:
 
 *  `Add(item)`: insert an item to the filter
@@ -46,7 +47,9 @@ Inserting item using the power of two Choices
 
 
 ## How to use?
+
 ### Environment
+
 We implement BCF in a Linux (Red Hat Enterprise Linux Server release 6.2) with an Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz CPU and OpenSSL library environment. 
 
 
@@ -59,6 +62,7 @@ make test
 
 
 ### Configurations
+
 Configurations including the number of total items and dataset path.
 
 ```c++
@@ -72,6 +76,7 @@ std::ifstream in("./input/ip_final.txt");
 BCF is developed in National Engineering Research Center for Big Data Technology and System, Cluster and Grid Computing Lab, Services Computing Technology and System Lab, School of Computer Science and Technology, Huazhong University of Science and Technology, Wuhan, China by Feiyue Wang (wangfy@hust.edu.cn), Hanhua Chen (chen@hust.edu.cn), Liangyi Liao (liaoliangyi@hust.edu.cn), Fan Zhang (zhangf@hust.edu.cn), Hai Jin (hjin@hust.edu.cn)
 
 Copyright (C) 2019, [STCS & CGCL](http://grid.hust.edu.cn/) and [Huazhong University of Science and Technology](http://www.hust.edu.cn).
+
 
 ## Publication
 
